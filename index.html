@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+  </head>
+  <body>
+
+    <p>This is paragraph</p>
+
+    <script>
+
+      d3.select("body")                     // Method chaining
+        .append("p")
+        .text("d3 Hello World program")
+        .style("color", "red");
+
+      d3.select("body")
+        .append("p")
+        .text("The third Paragraph")
+        .style("color", "green");
+
+// --------------------------------------------------------------------------------
+
+//canvas - Kind of a svg container
+
+      var canvas = d3.select("body")
+                      .append("svg")
+                      .attr("width", 100)
+                      .attr("height", 100);
+
+      var circle = canvas.append("circle")
+                          .attr("cx", 50)
+                          .attr("cy", 50)
+                          .attr("r", 40)
+                          .attr("fill", "red");
+
+      var rectangle = canvas.append("rect")         // appending rectagle inside the same svg
+                             .attr("width", 20)
+                             .attr("height", 20);
+// --------------------------------------------------------------------------------
+
+// Visualisations using bar graphs
+
+      var dataArray = [20, 40, 50];
+
+      var barCanvas = d3.select("body")
+        .append("svg")
+        .attr("width", 500)
+        .attr("height", 500);
+
+      barCanvas.selectAll("rect")       // returns empty selection as there is no rectangle
+               .data(dataArray)         // binds dataArray data to the empty selection
+               .enter()                 // returns placeholder for each dataArray element, here 3 placeholders
+                  .append("rect")       // appending rectangle for each placeholder --> which creates bars for each dataArray element
+                  .attr("height", function(d) { return d; })
+                  .attr("width", 10)
+                  .attr("x", function(d, i) { return i * 50; })   // svg starts drawing from the top left corned of the canvas container
+
+    </script>
+
+  </body>
+</html>
