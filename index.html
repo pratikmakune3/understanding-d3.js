@@ -11,42 +11,57 @@
 
     <script>
 
-      var dataArray = [1000, 1020, 1050, 1100, 1170, 1200, 1300, 1500, 2000];
+      var dataArray = [1050, 1050, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2000, 2001,1400, 1500, 1600, 1700];
 
-      var width = 500;
-      var height = Math.max(...dataArray);
+      var minDataElem = Math.min(...dataArray);
+      var maxDataElem = Math.max(...dataArray);
 
-      var scaleColor = d3.scaleLinear()
-                          .domain([1000, 2000])
-                          .range(["red", "blue"])
+      var width = 400;
+      var height = maxDataElem;
 
       var scaleHeight = d3.scaleLinear()
-                          .domain([1000, 2000])
-                          .range([0, 200]);
+                          .domain([minDataElem, maxDataElem])
+                          .range([1, 200]);
 
-      var axis_vertical = d3.axisLeft(scaleHeight);
-      var axis_horizontal = d3.axisBottom(width);
+      var scaleWidth = d3.scaleBand()
+                          .domain(dataArray.map(function (d, i) { return i; }))
+                          .rangeRound([0, width])
+                          .paddingInner(0.1)
+                          .paddingOuter(0.3);
 
+      var yAxisScale = d3.scaleLinear()
+                         .domain([minDataElem, maxDataElem])
+                         .range([200, 0]);
+
+      var xAxisScale = d3.scaleLinear()
+                         .domain([0, dataArray.length])
+                         .range([0, width])
+
+      var yAxis = d3.axisLeft(yAxisScale);
+      var xAxis = d3.axisBottom(xAxisScale).ticks(dataArray.length);
 
       var barCanvas = d3.select(".chart")
-        .append("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .append("g")       // groups svg elements together
-        .attr("transform", "translate(50, 50)")   // transforms/moves the svg group by 50px, 50px
-        .call(axis_vertical)
-        // .call(axis_horizontal);
+                        .append("svg")
+                        .attr("width", width + 40)
+                        .attr("height", height)
+                        .append("g")
+                          .attr("transform", "translate(50, 50)");
 
+      barCanvas.call(yAxis);
 
-      barCanvas.selectAll("rect")       // returns empty selection as there is no rectangle
-               .data(dataArray)         // binds dataArray data to the empty selection
-               .enter()                 // returns placeholder for each dataArray element, here 3 placeholders
-                  .append("rect")       // appending rectangle for each placeholder --> which creates bars for each dataArray element
+      barCanvas.append("g")
+                  .attr("transform", "translate(0, 200)")
+                .call(xAxis);
+
+      barCanvas.selectAll("rect")
+               .data(dataArray, function(d, i) { console.log('' + i + '-' + d); return '' + i + '-' + d; })
+               .enter()
+                  .append("rect")
                   .attr("height", function(d) { return scaleHeight(d); })
-                  .attr("width", 30)
-                  .attr("fill", function(d) { return scaleColor(d); })
-                  .attr("x", function(d, i) { return i * 50; })   // bcz, svg starts drawing from the top left corned of the canvas container
-
+                  .attr("width", function () { console.log(scaleWidth.bandwidth()); return scaleWidth.bandwidth(); })
+                  .attr("fill", "steelblue")
+                  .attr("x", function(d, i) { return scaleWidth(i); })
+                  .attr("y", function(d) { return (200-scaleHeight(d)) });
     </script>
 
   </body>
