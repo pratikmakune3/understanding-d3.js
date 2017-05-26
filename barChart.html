@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Bar Graph</title>
+    <!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
+    <!-- <script src="barGraph.js"></script> -->
+  </head>
+  <body>
+    <script>
+
+    var future_value_data_array = [];
+
+    window.addEventListener('load', function() {
+
+      calculateFutureVal = function() {   // TODO: Fix this
+
+        var principle_amnt = Number(document.getElementById("amount").value);
+        var rate = Number(document.getElementById("interest_rate").value);
+        var years = Number(document.getElementById("years").value);
+
+        for(var i=1; i<=years; i++){
+          var pow = Math.pow((1+rate), i);
+          var future_value = principle_amnt * pow;
+          future_value_data_array.push(future_value);
+        }
+
+        return future_value_data_array;
+      }
+    }, false);
+
+    </script>
+
+    <form action="#">
+      <div>
+        <label for="amount">Amount:</label>
+        <input type="text" id="amount" name="amount">
+      </div>
+      <div>
+        <label for="interest">Interest Rate:</label>
+        <input type="text" id="interest_rate" name="interest_rate">
+      </div>
+      <div>
+        <label for="years">Number of Years:</label>
+        <input type="text" id="years" name="years">
+      </div>
+      <button onclick="var dataArray = calculateFutureVal(); alert(dataArray)">Compute</button>
+    </form>
+
+
+  </body>
+</html>
