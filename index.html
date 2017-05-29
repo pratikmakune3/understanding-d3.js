@@ -2,67 +2,30 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Bar Graph</title>
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="barGraph.js"></script>
   </head>
   <body>
 
+    <form>
+      <div>
+        <label for="amount">Amount:</label>
+        <input type="text" id="amount" name="amount">
+      </div>
+      <div>
+        <label for="interest">Interest Rate:</label>
+        <input type="text" id="interest_rate" name="interest_rate">
+      </div>
+      <div>
+        <label for="years">Number of Years:</label>
+        <input type="text" id="years" name="years">
+        <input type="text" id="asd" name="years">
+      </div>
+      <button onclick="return calculateFutureVal()">Compute</button>
+    </form>
+
     <div class="chart"></div>
-
-    <script>
-
-      var dataArray = [1050, 1050, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2000, 2001,1400, 1500, 1600, 1700];
-
-      var minDataElem = Math.min(...dataArray);
-      var maxDataElem = Math.max(...dataArray);
-
-      var width = 400;
-      var height = maxDataElem;
-
-      var scaleHeight = d3.scaleLinear()
-                          .domain([minDataElem, maxDataElem])
-                          .range([1, 200]);
-
-      var scaleWidth = d3.scaleBand()
-                          .domain(dataArray.map(function (d, i) { return i; }))
-                          .rangeRound([0, width])
-                          .paddingInner(0.1)
-                          .paddingOuter(0.3);
-
-      var yAxisScale = d3.scaleLinear()
-                         .domain([minDataElem, maxDataElem])
-                         .range([200, 0]);
-
-      var xAxisScale = d3.scaleLinear()
-                         .domain([0, dataArray.length])
-                         .range([0, width])
-
-      var yAxis = d3.axisLeft(yAxisScale);
-      var xAxis = d3.axisBottom(xAxisScale).ticks(dataArray.length);
-
-      var barCanvas = d3.select(".chart")
-                        .append("svg")
-                        .attr("width", width + 40)
-                        .attr("height", height)
-                        .append("g")
-                          .attr("transform", "translate(50, 50)");
-
-      barCanvas.call(yAxis);
-
-      barCanvas.append("g")
-                  .attr("transform", "translate(0, 200)")
-                .call(xAxis);
-
-      barCanvas.selectAll("rect")
-               .data(dataArray, function(d, i) { console.log('' + i + '-' + d); return '' + i + '-' + d; })
-               .enter()
-                  .append("rect")
-                  .attr("height", function(d) { return scaleHeight(d); })
-                  .attr("width", function () { console.log(scaleWidth.bandwidth()); return scaleWidth.bandwidth(); })
-                  .attr("fill", "steelblue")
-                  .attr("x", function(d, i) { return scaleWidth(i); })
-                  .attr("y", function(d) { return (200-scaleHeight(d)) });
-    </script>
 
   </body>
 </html>
