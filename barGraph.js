@@ -1,21 +1,21 @@
-var future_value_data_array = [];
-
 window.addEventListener('load', onLoadCallback, false);
 
 function onLoadCallback() {
 
     calculateFutureVal = function() {
 
+      var future_value_data_array = [];
+      document.getElementById('chart').innerHTML = '';
+
       var principle_amnt = Number(document.getElementById("amount").value);
       var rate = Number(document.getElementById("interest_rate").value);
       var years = Number(document.getElementById("years").value);
 
       for(var i=1; i<=years; i++){
-        var pow = Math.pow((1+rate), i);
+        var pow = Math.pow((1+rate/100), i);
         var future_value = principle_amnt * pow;
         future_value_data_array.push(future_value);
       }
-
       createBarGraphWithFVs(future_value_data_array);
       return false;
   }

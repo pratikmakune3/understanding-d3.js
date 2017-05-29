@@ -7,8 +7,8 @@
     <script src="barGraph.js"></script>
   </head>
   <body>
-
-    <form>
+    
+    <form action = "#">
       <div>
         <label for="amount">Amount:</label>
         <input type="text" id="amount" name="amount">
@@ -20,12 +20,11 @@
       <div>
         <label for="years">Number of Years:</label>
         <input type="text" id="years" name="years">
-        <input type="text" id="asd" name="years">
       </div>
       <button onclick="return calculateFutureVal()">Compute</button>
     </form>
 
-    <div class="chart"></div>
+    <div class="chart" id="chart"></div>
 
   </body>
 </html>
